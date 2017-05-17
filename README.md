@@ -36,7 +36,7 @@ try:
 except faces.ImageHasNoFaces:
 	print('Your face is not recognized. Are you an alian?')
 except faces.BaseFacesException:
-	print('Some ukknown wrong things happened.')
+	print('Some unknown wrong things happened.')
 try:
 	result = image.apply_filter('young, rich and powerful')
 except faces.BadFilterID:
