@@ -78,7 +78,7 @@ class FaceAppImage(object):
             self.code = code
             self.device_id = device_id
         else:
-            raise ValueError('Wrong args set. Please use either url, file or code and device_id')
+            raise IllegalArgSet('Wrong args set. Please use either url, file or code and device_id')
 
     def __str__(self):
         return 'FaceAppImage#{}'.format(self.code)

@@ -4,7 +4,7 @@
 A Python wrapper around FaceApp.
 
  ## Installation
- `pip install git+https://github.com/vasilysinitsin/Faces.git`  
+ `$ pip install git+https://github.com/vasilysinitsin/Faces.git`
  or manually clone this repo.
  
  ## Basic Usage
@@ -13,7 +13,7 @@ A Python wrapper around FaceApp.
 import faces
 
 sad = open('sad.jpg', 'rb')
-image = faces.FaceAppImage(file=smile)
+image = faces.FaceAppImage(file=sad)
 happy = image.apply_filter('smile', cropped=True)
 ```
 ### with URL
@@ -37,15 +37,15 @@ brad_pitt = image.apply_filter('hot')
 ## Handling Exceptions
 ```python
 try:
-	image = faces.FaceAppImage(...)
+image = faces.FaceAppImage(...)
 except faces.ImageHasNoFaces:
-	print('Your face is not recognized. Are you an alian?')
+    print('Your face is not recognized. Are you an alian?')
 except faces.BaseFacesException:
-	print('Some unknown wrong things happened.')
+    print('Some unknown wrong things happened.')
 try:
-	result = image.apply_filter('young, rich and powerful')
+    result = image.apply_filter('young, rich and powerful')
 except faces.BadFilterID:
-	print('Too cool filter to exist.')
+    print('Too cool filter to exist.')
 ```
 
 ## Known filters
