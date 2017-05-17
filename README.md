@@ -42,4 +42,6 @@ try:
 except faces.BadFilterID:
 	print('Too cool filter to exist.')
 ```
+## Known filters
+Try that ones: '`smile`, `smile_2`, `hot`, `old`, `young`, `female`, `male`.
 ## Yes, it's that easy. Now create something cool!
