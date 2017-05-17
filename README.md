@@ -3,6 +3,10 @@
 
 A Python wrapper around FaceApp.
 
+ ## Installation
+ `pip install git+https://github.com/vasilysinitsin/Faces.git`  
+ or manually clone this repo.
+ 
  ## Basic Usage
  ### With file,
  ```python
@@ -29,6 +33,7 @@ my_device_id = '12345678'
 image = faces.FaceAppImage(code=code_of_me_uploaded, device_id=my_device_id)
 brad_pitt = image.apply_filter('hot')
 ```
+
 ## Handling Exceptions
 ```python
 try:
@@ -42,6 +47,8 @@ try:
 except faces.BadFilterID:
 	print('Too cool filter to exist.')
 ```
+
 ## Known filters
 Try that ones: `smile`, `smile_2`, `hot`, `old`, `young`, `female`, `male`.
+
 ## Yes, it's that easy. Now create something cool!
