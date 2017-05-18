@@ -1,15 +1,15 @@
 # Faces
 # :pensive: →  :grinning:
 
-A Python wrapper around FaceApp.
+A Python wrapper around [FaceApp](https://www.faceapp.com/) .
 
- ## Installation
- `$ pip install git+https://github.com/vasilysinitsin/Faces.git`
- or manually clone this repo.
+## Installation
+`$ pip install git+https://github.com/vasilysinitsin/Faces.git`
+or manually clone this repo.
  
- ## Basic Usage
- ### With file,
- ```python
+## Basic Usage
+### With file,
+```python
 import faces
 
 sad = open('sad.jpg', 'rb')
@@ -17,7 +17,7 @@ image = faces.FaceAppImage(file=sad)
 happy = image.apply_filter('smile', cropped=True)
 ```
 ### with URL
- ```python
+```python
 import faces
 
 old_rockfeller = 'https://upload.wikimedia.org/wikipedia/commons/6/6f/John_D._Rockefeller_1885.jpg'
@@ -50,5 +50,20 @@ except faces.BadFilterID:
 
 ## Known filters
 Try that ones: `smile`, `smile_2`, `hot`, `old`, `young`, `female`, `male`.
+
+## Advanced features
+### Dumping and rebuilding class from json
+```python
+# It is handy when you have uploader-worker application and have to pass data between.
+
+image = faces.FaceAppImage(...)
+json_string = image.to_json() # type(json_string) == str
+
+"""
+...pass to different machine
+"""
+
+rebuilt_image = faces.FaceAppImage.from_json(json_string) # type(rebuilt_image) == faces.FaceAppImage
+```
 
 ## Yes, it's that easy. Now create something cool!

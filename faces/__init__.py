@@ -30,6 +30,8 @@ __license__ = 'MIT'
 
 import random
 import string
+import json
+
 import requests
 
 BASE_API_URL = 'https://node-01.faceapp.io/api/v2.3/photos'  # Ensure no slash at the end.
@@ -107,6 +109,27 @@ class FaceAppImage(object):
                 raise BaseFacesException(error)
 
         return request.content
+
+    def to_json(self):
+        """
+        This method will dump instance data to json string. Then class can be recreated with from_json class method.
+        It is handy when you have uploader-worker application and have to pass data between.
+        :return: json string.
+        """
+        dump_dict = {'code': self.code, 'device_id': self.device_id}
+        return json.dumps(dump_dict)
+
+    @classmethod
+    def from_json(cls, json_string):
+        """
+        This class method will rebuild a class.
+        :param json_string: obtained from to_json method.
+        :return: FaceAppImage instance.
+        """
+        data_dict = json.loads(json_string)
+        code = data_dict['code']
+        device_id = data_dict['device_id']
+        return cls(code=code, device_id=device_id)
 
     @staticmethod
     def _generate_device_id():
