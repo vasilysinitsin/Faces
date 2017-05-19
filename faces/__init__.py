@@ -69,7 +69,7 @@ class FaceAppImage(object):
             if not code:
                 error = post.headers['X-FaceApp-ErrorCode']
                 if error == 'photo_bad_type':
-                    raise BadImageType(BaseFacesException)
+                    raise BadImageType('Bad image provided.')
                 elif error == 'photo_no_faces':
                     raise ImageHasNoFaces('No faces on this image.')
                 else:
