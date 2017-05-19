@@ -3,6 +3,9 @@
 
 A Python wrapper around [FaceApp](https://www.faceapp.com/) .
 
+[![Build Status](https://travis-ci.org/vasilysinitsin/Faces.svg?branch=master)](https://travis-ci.org/vasilysinitsin/Faces)
+[![Build Status](https://img.shields.io/badge/Python-3-brightgreen.svg)](https://www.python.org/)
+
 ## Installation
 `$ pip install git+https://github.com/vasilysinitsin/Faces.git`
 or manually clone this repo.
