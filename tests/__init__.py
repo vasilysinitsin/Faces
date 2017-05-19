@@ -37,6 +37,5 @@ class FacesTest(unittest.TestCase):
             self.image_by_file.apply_filter('Make_me_as_cool_as_Vasily')
 
 
-print(__name__, 'NAME')
 if __name__ == "__main__":
     unittest.main()
