@@ -37,6 +37,7 @@ import requests
 BASE_API_URL = 'https://node-01.faceapp.io/api/v2.3/photos'  # Ensure no slash at the end.
 BASE_HEADERS = {'User-agent': "FaceApp/1.0.229 (Linux; Android 4.4)"}
 DEVICE_ID_LENGTH = 8
+KNOWN_FILTERS = ['smile', 'smile2', 'hot', 'old', 'young', 'female', 'male']
 
 
 class FaceAppImage(object):
@@ -107,7 +108,7 @@ class FaceAppImage(object):
         error = request.headers.get('X-FaceApp-ErrorCode')
         if error:
             if error == 'bad_filter_id':
-                raise BadFilterID('Filter id is bad.')
+                raise BadFilterID('Filter id is bad.')  # FIXME: If bad filter id has space in name it passes anyway.
             else:
                 raise BaseFacesException(error)
 

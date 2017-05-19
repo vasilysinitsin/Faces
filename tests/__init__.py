@@ -37,5 +37,23 @@ class FacesTest(unittest.TestCase):
             self.image_by_file.apply_filter('Make_me_as_cool_as_Vasily')
 
 
+class TestKnownFilters(unittest.TestCase):
+    def setUp(self):
+        with open('tests/Roosevelt.jpg', 'rb') as valid_image:
+            self.image_by_file = faces.FaceAppImage(file=valid_image)
+
+    def testFilterSet(self):
+        """
+        This test has print() output and is used to check if known filters are not deprecated or removed from API.
+        """
+        for filter in faces.KNOWN_FILTERS:
+            try:
+                self.image_by_file.apply_filter(filter)
+                status = 'OK'
+            except faces.BadFilterID:
+                status = 'FAIL'
+            print('Probed filter "{}" : {}'.format(filter, status))
+
+
 if __name__ == "__main__":
     unittest.main()
