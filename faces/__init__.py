@@ -68,7 +68,9 @@ class FaceAppImage(object):
 
             if not code:
                 error = post.headers['X-FaceApp-ErrorCode']
-                if error == 'photo_no_faces':
+                if error == 'photo_bad_type':
+                    raise BadImageType(BaseFacesException)
+                elif error == 'photo_no_faces':
                     raise ImageHasNoFaces('No faces on this image.')
                 else:
                     raise BaseFacesException(error)
@@ -79,6 +81,7 @@ class FaceAppImage(object):
         elif (code and device_id) and not (url or file):
             self.code = code
             self.device_id = device_id
+
         else:
             raise IllegalArgSet('Wrong args set. Please use either url, file or code and device_id')
 
@@ -161,6 +164,13 @@ class IllegalArgSet(ValueError):
 class BaseFacesException(Exception):
     """
     This is a general module exception. It will show error string received from FaceApp.
+    """
+    pass
+
+
+class BadImageType(BaseFacesException):
+    """
+    Expect this when bad file provided or url returns anything except image.
     """
     pass
 

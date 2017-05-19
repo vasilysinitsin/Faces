@@ -37,11 +37,14 @@ brad_pitt = image.apply_filter('hot')
 ## Handling Exceptions
 ```python
 try:
-image = faces.FaceAppImage(...)
+    image = faces.FaceAppImage(...)
 except faces.ImageHasNoFaces:
     print('Your face is not recognized. Are you an alian?')
+except faces.BadImageType:
+    print('This image is not valid. Get some good bytes.')
 except faces.BaseFacesException:
     print('Some unknown wrong things happened.')
+
 try:
     result = image.apply_filter('young, rich and powerful')
 except faces.BadFilterID:
