@@ -46,6 +46,7 @@ class TestKnownFilters(unittest.TestCase):
         """
         This test has print() output and is used to check if known filters are not deprecated or removed from API.
         """
+        print('\nFilters probe...')
         for filter in faces.KNOWN_FILTERS:
             try:
                 self.image_by_file.apply_filter(filter)

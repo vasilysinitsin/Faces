@@ -55,7 +55,10 @@ except faces.BadFilterID:
 ```
 
 ## Known filters
-Try that ones: `smile`, `smile_2`, `hot`, `old`, `young`, `female`, `male`.
+are stored in `faces.KNOWN_FILTERS` list.
+API is not documented so expect them to change or brake over time.
+You can track which of them works on [Travis CI](https://travis-ci.org/vasilysinitsin/Faces) latest build info. It is scheduled to be updated daily.
+
 
 ## Advanced features
 ### Dumping and rebuilding class from json
@@ -73,3 +76,7 @@ rebuilt_image = faces.FaceAppImage.from_json(json_string) # type(rebuilt_image) 
 ```
 
 ## Yes, it's that easy. Now create something cool!
+
+## Tests and API status
+This module hardly relies on undocumented FaceApp API.
+Tests are scheduled to run daily on [Travis CI](https://travis-ci.org/vasilysinitsin/Faces) to ensure API works as expected.
