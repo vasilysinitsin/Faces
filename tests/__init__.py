@@ -45,15 +45,21 @@ class TestKnownFilters(unittest.TestCase):
     def testFilterSet(self):
         """
         This test has print() output and is used to check if known filters are not deprecated or removed from API.
+        Overall test will only fail if none of known filters works. Otherwise it seems to be an API problem.
         """
         print('\nFilters probe...')
+        ok_count = 0
         for filter in faces.KNOWN_FILTERS:
             try:
                 self.image_by_file.apply_filter(filter)
                 status = 'OK'
+                ok_count += 1
             except faces.BadFilterID:
                 status = 'FAIL'
             print('Probed filter "{}" : {}'.format(filter, status))
+        print('DONE. {} filters operational.'.format(ok_count))
+        if not ok_count:
+            raise Exception('All known filters failed.')
 
 
 if __name__ == "__main__":

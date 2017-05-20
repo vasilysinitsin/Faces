@@ -93,7 +93,7 @@ class FaceAppImage(object):
         """
         This method will apply FaceApp filter to uploaded image. You can apply filters multiple times with same class.
         :param filter_name: name of filter to be applied. It may vary because of FaceApp developers.
-        Known filters for now are 'smile', 'smile_2', 'hot', 'old', 'young', 'female', 'male'.
+        Known filters are stored in faces.KNOWN_FILTERS
         :param cropped: provide True if you want FaceApp to crop image.
         :return: binary of image.
         """
