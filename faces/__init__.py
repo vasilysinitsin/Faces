@@ -37,9 +37,7 @@ import requests
 BASE_API_URL = 'https://node-01.faceapp.io/api/v2.3/photos'  # Ensure no slash at the end.
 BASE_HEADERS = {'User-agent': "FaceApp/1.0.229 (Linux; Android 4.4)"}
 DEVICE_ID_LENGTH = 8
-KNOWN_FILTERS = ['smile', 'smile_2', 'hot', 'old', 'young',
-                 # 'female', 'male' # Looks dead from latest tests. Maybe renamed.
-                 ]
+KNOWN_FILTERS = ['smile', 'smile_2', 'hot', 'old', 'young', 'female', 'male']
 
 
 class FaceAppImage(object):
@@ -102,6 +100,8 @@ class FaceAppImage(object):
         code = self.code
         device_id = self.device_id
         headers = self._generate_headers(device_id)
+        if filter_name == 'male' or filter_name == 'female' :
+            cropped = 1
 
         request = requests.get(
             '{0}/{1}/filters/{2}?cropped={3}'.format(BASE_API_URL, code, filter_name, int(cropped)),
