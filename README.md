@@ -42,7 +42,7 @@ brad_pitt = image.apply_filter('hot')
 try:
     image = faces.FaceAppImage(...)
 except faces.ImageHasNoFaces:
-    print('Your face is not recognized. Are you an alian?')
+    print('Your face is not recognized. Are you an alien?')
 except faces.BadImageType:
     print('This image is not valid. Get some good bytes.')
 except faces.BaseFacesException:
