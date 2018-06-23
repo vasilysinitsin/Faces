@@ -37,6 +37,17 @@ image = faces.FaceAppImage(code=code_of_me_uploaded, device_id=my_device_id)
 brad_pitt = image.apply_filter('hot')
 ```
 
+## Filter list
+Can be obtained using filters property.
+```python
+>>> image = faces.FaceAppImage(...)
+>>> image.filters
+['no-filter', 'smile', 'smile_2', 'hot', 'old', 'young', 'hollywood', 'fun_glasses', 'hitman',
+'mustache_free', 'pan', 'heisenberg', 'female', 'female_2', 'male', 'no-filter', 'impression',
+'goatee', 'mustache', 'hipster', 'lion', 'bangs', 'glasses', 'wave', 'makeup']
+```
+You can track which of them works on [Travis CI](https://travis-ci.org/vasilysinitsin/Faces) latest build info. It is scheduled to be updated daily.
+
 ## Handling Exceptions
 ```python
 try:
@@ -54,12 +65,6 @@ except faces.BadFilterID:
     print('Too cool filter to exist.')
 ```
 
-## Known filters
-are stored in `faces.KNOWN_FILTERS` list.
-API is not documented so expect them to change or brake over time.
-You can track which of them works on [Travis CI](https://travis-ci.org/vasilysinitsin/Faces) latest build info. It is scheduled to be updated daily.
-
-
 ## Advanced features
 ### Dumping and rebuilding class from json
 ```python
@@ -75,8 +80,8 @@ json_string = image.to_json() # type(json_string) == str
 rebuilt_image = faces.FaceAppImage.from_json(json_string) # type(rebuilt_image) == faces.FaceAppImage
 ```
 
-## Yes, it's that easy. Now create something cool!
-
 ## Tests and API status
 This module hardly relies on undocumented FaceApp API.
 Tests are scheduled to run daily on [Travis CI](https://travis-ci.org/vasilysinitsin/Faces) to ensure API works as expected.
+
+## Yes, it's that easy. Now create something cool!

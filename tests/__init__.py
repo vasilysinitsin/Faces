@@ -48,17 +48,15 @@ class TestKnownFilters(unittest.TestCase):
         Overall test will only fail if none of known filters works. Otherwise it seems to be an API problem.
         """
         print('\nFilters probe...')
-        ok_count = 0
-        for filter in faces.KNOWN_FILTERS:
+        for num, filter in enumerate(self.image_by_file.filters):
             try:
                 self.image_by_file.apply_filter(filter)
                 status = 'OK'
-                ok_count += 1
             except faces.BadFilterID:
                 status = 'FAIL'
             print('Probed filter "{}" : {}'.format(filter, status))
-        print('DONE. {} filters operational.'.format(ok_count))
-        if not ok_count:
+        print('DONE. {} filters operational.'.format(num))
+        if not num:
             raise Exception('All known filters failed.')
 
 

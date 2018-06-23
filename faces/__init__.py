@@ -34,16 +34,16 @@ import json
 
 import requests
 
-BASE_API_URL = 'https://node-01.faceapp.io/api/v2.3/photos'  # Ensure no slash at the end.
-BASE_HEADERS = {'User-agent': "FaceApp/1.0.229 (Linux; Android 4.4)"}
+BASE_API_URL = 'https://node-03.faceapp.io/api/v2.7/photos'  # Ensure no slash at the end.
+BASE_HEADERS = {'User-agent': "FaceApp/2.0.561 (Linux; Android 6.0)"}
 DEVICE_ID_LENGTH = 8
-KNOWN_FILTERS = ['smile', 'smile_2', 'hot', 'old', 'young', 'female', 'male']
 
 
 class FaceAppImage(object):
     def __init__(self, url=None, file=None, code=None, device_id=None):
         """
-        Class is initialized via image url, file or both code and device_id. Expect IllegalArgSet exception if set is wrong.
+        Class is initialized via image url, file or both code and device_id. Expect IllegalArgSet exception if set is
+        wrong.
         Initializing with code and device_id may be useful to rebuild class from plain data.
         :param url: direct link to the image.
         :param file: image file.
@@ -53,6 +53,9 @@ class FaceAppImage(object):
 
         self.code = None
         self.device_id = None
+
+        # To be used for debugging
+        self._request = None
 
         if (url or file) and not (url and file) and not (code or device_id):
             device_id = self._generate_device_id()
@@ -66,6 +69,8 @@ class FaceAppImage(object):
 
             post = requests.post(BASE_API_URL, headers=headers, files={'file': file})
             code = post.json().get('code')
+
+            self._request = post
 
             if not code:
                 error = post.headers['X-FaceApp-ErrorCode']
@@ -86,22 +91,20 @@ class FaceAppImage(object):
         else:
             raise IllegalArgSet('Wrong args set. Please use either url, file or code and device_id')
 
-    def __str__(self):
-        return 'FaceAppImage#{}'.format(self.code)
-
     def apply_filter(self, filter_name, cropped=False):
         """
         This method will apply FaceApp filter to uploaded image. You can apply filters multiple times with same class.
-        :param filter_name: name of filter to be applied. It may vary because of FaceApp developers.
-        Known filters are stored in faces.KNOWN_FILTERS
-        :param cropped: provide True if you want FaceApp to crop image.
+        :param filter_name: name of filter to be applied. List can be obtained from .filters property.
+        :param cropped: provide True if you want FaceApp to crop image. True will be forced if filter is cropped-only.
         :return: binary of image.
         """
         code = self.code
         device_id = self.device_id
         headers = self._generate_headers(device_id)
-        if filter_name == 'male' or filter_name == 'female' :
-            cropped = 1
+
+        # Forcing cropped option for appropriate filters.
+        if filter_name in self._only_cropped:
+            cropped = True
 
         request = requests.get(
             '{0}/{1}/filters/{2}?cropped={3}'.format(BASE_API_URL, code, filter_name, int(cropped)),
@@ -115,6 +118,13 @@ class FaceAppImage(object):
                 raise BaseFacesException(error)
 
         return request.content
+
+    @property
+    def filters(self):
+        """
+        :return: list of filter names to use in apply_filter.
+        """
+        return [face_app_filter['id'] for face_app_filter in self._request.json().get('filters')]
 
     def to_json(self):
         """
@@ -155,6 +165,17 @@ class FaceAppImage(object):
         """
         BASE_HEADERS.update({'X-FaceApp-DeviceID': device_id})
         return BASE_HEADERS
+
+    @property
+    def _only_cropped(self):
+        """
+        :return: list of filters supported only with cropped option.
+        """
+        return [face_app_filter['id'] for face_app_filter in self._request.json().get('filters') if
+                face_app_filter['only_cropped']]
+
+    def __str__(self):
+        return 'FaceAppImage#{}'.format(self.code)
 
 
 class IllegalArgSet(ValueError):
