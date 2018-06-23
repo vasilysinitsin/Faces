@@ -124,7 +124,8 @@ class FaceAppImage(object):
         """
         :return: list of filter names to use in apply_filter.
         """
-        return [face_app_filter['id'] for face_app_filter in self._request.json().get('filters')]
+        return [face_app_filter['id'] for face_app_filter in self._request.json().get('filters') if
+                not face_app_filter['is_paid']]
 
     def to_json(self):
         """
@@ -172,7 +173,7 @@ class FaceAppImage(object):
         :return: list of filters supported only with cropped option.
         """
         return [face_app_filter['id'] for face_app_filter in self._request.json().get('filters') if
-                face_app_filter['only_cropped']]
+                face_app_filter['only_cropped'] and not face_app_filter['is_paid']]
 
     def __str__(self):
         return 'FaceAppImage#{}'.format(self.code)
