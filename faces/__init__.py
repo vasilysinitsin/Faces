@@ -20,7 +20,7 @@
  / / /           / /_________/\ \ \  / / /________    / / /______    /_/\__/ / /      
 / / /           / / /_       __\ \_\/ / /_________\  / / /_______\   \ \/___/ /       
 \/_/            \_\___\     /____/_/\/____________/  \/__________/    \_____\/        
-                                                                                      
+
 """
 
 __author__ = """Vasily Sinitsin"""
@@ -34,9 +34,9 @@ import json
 
 import requests
 
-BASE_API_URL = 'https://node-03.faceapp.io/api/v2.7/photos'  # Ensure no slash at the end.
-BASE_HEADERS = {'User-agent': "FaceApp/2.0.561 (Linux; Android 6.0)"}
-DEVICE_ID_LENGTH = 8
+BASE_API_URL = 'https://phv3f.faceapp.io/api/v3.1/photos'  # Ensure no slash at the end.
+BASE_HEADERS = {'User-agent': "FaceApp/3.2.1 (Linux; Android 8.1.0)"}
+DEVICE_ID_LENGTH = 16
 
 
 class FaceAppImage(object):
@@ -102,12 +102,11 @@ class FaceAppImage(object):
         device_id = self.device_id
         headers = self._generate_headers(device_id)
 
-        # Forcing cropped option for appropriate filters.
-        if filter_name in self._only_cropped:
-            cropped = True
+        if cropped:
+            filter_name += '-cropped'
 
         request = requests.get(
-            '{0}/{1}/filters/{2}?cropped={3}'.format(BASE_API_URL, code, filter_name, int(cropped)),
+            '{0}/{1}/filters/{2}'.format(BASE_API_URL, code, filter_name),
             headers=headers)
 
         error = request.headers.get('X-FaceApp-ErrorCode')
@@ -166,14 +165,6 @@ class FaceAppImage(object):
         """
         BASE_HEADERS.update({'X-FaceApp-DeviceID': device_id})
         return BASE_HEADERS
-
-    @property
-    def _only_cropped(self):
-        """
-        :return: list of filters supported only with cropped option.
-        """
-        return [face_app_filter['id'] for face_app_filter in self._request.json().get('filters') if
-                face_app_filter['only_cropped'] and not face_app_filter['is_paid']]
 
     def __str__(self):
         return 'FaceAppImage#{}'.format(self.code)
