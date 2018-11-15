@@ -78,6 +78,8 @@ class FaceAppImage(object):
                     raise BadImageType('Bad image provided.')
                 elif error == 'photo_no_faces':
                     raise ImageHasNoFaces('No faces on this image.')
+                elif error == 'too_many_requests':
+                    raise TooManyRequests('Too many requests. Please try again later.')
                 else:
                     raise BaseFacesException(error)
 
@@ -113,6 +115,8 @@ class FaceAppImage(object):
         if error:
             if error == 'bad_filter_id':
                 raise BadFilterID('Filter id is bad.')  # FIXME: If bad filter id has space in name it passes anyway.
+            elif error == 'subscription_bad_info':
+                raise SubscriptionBadInfo('No access to filter.')
             else:
                 raise BaseFacesException(error)
 
@@ -201,5 +205,19 @@ class ImageHasNoFaces(BaseFacesException):
 class BadFilterID(BaseFacesException):
     """
     Expect this when FaceApp has no such filter.
+    """
+    pass
+
+
+class TooManyRequests(BaseFacesException):
+    """
+    Expect this when too many requests to FaceApp.
+    """
+    pass
+
+
+class SubscriptionBadInfo(BaseFacesException):
+    """
+    Expect this when no access to filter.
     """
     pass
