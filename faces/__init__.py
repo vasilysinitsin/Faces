@@ -31,12 +31,13 @@ __license__ = 'MIT'
 import random
 import string
 import json
+from time import time
 
 import requests
 
-BASE_API_URL = 'https://node-03.faceapp.io/api/v2.7/photos'  # Ensure no slash at the end.
-BASE_HEADERS = {'User-agent': "FaceApp/2.0.561 (Linux; Android 6.0)"}
-DEVICE_ID_LENGTH = 8
+BASE_API_URL = 'https://ph-x-p.faceapp.io/api/v2.11/photos'  # Ensure no slash at the end.
+BASE_HEADERS = {'User-agent': "FaceApp/2.0.957 (Linux; Android 8.1.0; VirtualBox Build/OPM6.171019.030.B1; wv)",'X-FaceApp-AppLaunchedID':str(time())}
+DEVICE_ID_LENGTH = 16
 
 
 class FaceAppImage(object):
@@ -124,7 +125,7 @@ class FaceAppImage(object):
         """
         :return: list of filter names to use in apply_filter.
         """
-        return [face_app_filter['id'] for face_app_filter in self._request.json().get('filters') if
+        return [face_app_filter['id'] for face_app_filter in self._request.json().get('objects')[0]['children'] if
                 not face_app_filter['is_paid']]
 
     def to_json(self):
@@ -172,7 +173,7 @@ class FaceAppImage(object):
         """
         :return: list of filters supported only with cropped option.
         """
-        return [face_app_filter['id'] for face_app_filter in self._request.json().get('filters') if
+        return [face_app_filter['id'] for face_app_filter in self._request.json().get('objects')[0]['children'] if
                 face_app_filter['only_cropped'] and not face_app_filter['is_paid']]
 
     def __str__(self):
